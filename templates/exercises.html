@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+<div class="page-header"> 
+    <h1> Exercises </h1>
+</div>
+
+<div class="page-content">
+	<p> this is the exercises page - this page will show you a list of exercises and will allow you to add to it </p>
+
+	<ul>
+    	{% for exercise in exercises %}
+    		<li> {{ exercise.name }} </li>
+
+    	{% endfor %}
+    </ul>
+
+
+    <form action="{{ url_for('exercises') }}" method="POST">
+    	<input type="text" placeholder="Exercise" name="name">
+    	<input type="submit" value="Add" class="btn btn-secondary">
+    </form>
+
+
+</div>
+</div>
+
+{% endblock %}
