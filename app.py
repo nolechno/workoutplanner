@@ -67,6 +67,9 @@ def exercises():
 		exercises = Exercises.query.all()
 		return render_template("exercises.html", title=title, exercises=exercises)
 
+
+
+
 @app.route('/addworkout', methods=['POST', 'GET'])
 def addworkout(): # trying to shuffle info into Block database 
 	title = "Add Workout"
@@ -78,14 +81,15 @@ def addworkout(): # trying to shuffle info into Block database
 
 		block_unit = Block(weight=get_weight, reps=get_reps, exercise_id=get_exercise)
 
-
 		try:
 			db.session.add(block_unit)
-			db.session.commit() #error here 
-			return "success"
+			db.session.commit() 
+			return redirect(url_for('addworkout'))
+			# return "success"
 		except:
 			return "there was an error"
 	else:
+		blocks = Block.query.all()
 		exercises = Exercises.query.all()
-		return render_template("addworkout.html", exercises=exercises)
+		return render_template("addworkout.html", exercises=exercises, blocks=blocks)
 
