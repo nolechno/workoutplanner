@@ -76,12 +76,12 @@ def addworkout(): # trying to shuffle info into Block database
 		get_reps = request.form['reps1']
 		get_exercise = request.form['exercise1']
 
-		block = Block(weight=get_weight, reps=get_reps, exercise_id=get_exercise)
+		block_unit = Block(weight=get_weight, reps=get_reps, exercise_id=get_exercise)
 
 
 		try:
-			db.session.add_all([add_weight, add_reps])
-			db.session.commit()
+			db.session.add(block_unit)
+			db.session.commit() #error here 
 			return "success"
 		except:
 			return "there was an error"
