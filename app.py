@@ -67,13 +67,6 @@ def exercises():
 		exercises = Exercises.query.all()
 		return render_template("exercises.html", title=title, exercises=exercises)
 
-
-
-<<<<<<< Updated upstream
-    else:
-        exercises = Exercises.query.all()
-        return render_template("exercises.html", title=title, exercises=exercises)
-=======
 @app.route('/addworkout', methods=['POST', 'GET'])
 def addworkout(): # trying to shuffle info into Block database 
 	title = "Add Workout"
@@ -83,20 +76,16 @@ def addworkout(): # trying to shuffle info into Block database
 		get_reps = request.form['reps1']
 		get_exercise = request.form['exercise1']
 
-		block_unit = Block(weight=get_weight, reps=get_reps, exercise_id=get_exercise)
+		block = Block(weight=get_weight, reps=get_reps, exercise_id=get_exercise)
+
 
 		try:
-			db.session.add(block_unit)
-			db.session.commit() # not working !
+			db.session.add_all([add_weight, add_reps])
+			db.session.commit()
 			return "success"
 		except:
 			return "there was an error"
-
-
 	else:
 		exercises = Exercises.query.all()
 		return render_template("addworkout.html", exercises=exercises)
 
-
-
->>>>>>> Stashed changes
