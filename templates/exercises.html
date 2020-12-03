@@ -17,6 +17,7 @@
 	<ul>
     	{% for exercise in exercises %}
     		<li> {{ exercise.name }} </li>
+            <a href="{{ url_for('delete_ex', id=exercise.id) }}">Delete</a> 
 
     	{% endfor %}
     </ul>

@@ -35,7 +35,7 @@ class Block(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	weight = db.Column(db.Integer)
 	reps = db.Column(db.Integer)
-	exercise_id = db.Column(db.Integer, db.ForeignKey('exercises.id')) # might want to change to name after
+	exercise_id = db.Column(db.Integer, db.ForeignKey('exercises.id')) 
 
 
 class Workout(db.Model): # should add user and date maybe?
@@ -85,11 +85,38 @@ def addworkout(): # trying to shuffle info into Block database
 			db.session.add(block_unit)
 			db.session.commit() 
 			return redirect(url_for('addworkout'))
-			# return "success"
 		except:
 			return "there was an error"
 	else:
 		blocks = Block.query.all()
 		exercises = Exercises.query.all()
 		return render_template("addworkout.html", exercises=exercises, blocks=blocks)
+
+
+
+
+
+
+@app.route('/delete/<int:id>')
+def delete_block(id):
+    block_delete = Block.query.get_or_404(id)
+    try:
+        db.session.delete(block_delete)
+        db.session.commit()
+        return redirect(url_for('addworkout'))
+    except:
+        return "there was a problem deleting"
+
+@app.route('/delete_ex/<int:id>')
+def delete_ex(id):
+    exercise_delete = Exercises.query.get_or_404(id)
+    try:
+        db.session.delete(exercise_delete)
+        db.session.commit()
+        return redirect(url_for('exercises'))
+    except:
+        return "there was a problem deleting"
+
+
+
 

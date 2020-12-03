@@ -5,13 +5,15 @@
 
 {% block content %}
 
+
 <div class="container">
 	<div class="page-header"> 
 	    <h1> Create a Workout! </h1>
 	</div>
 
 
-	<div class="page-content">
+	<!-- <div class="page-content"> -->
+    <div class="row">
 		<form method="POST" action="{{ url_for('addworkout') }}" id="workout">
 			<label>Exercise</label>
             <select class="form-control" name="exercise1" form="workout">
@@ -25,42 +27,48 @@
             <br>
             <label>Reps</label>
             <input type="text" class="form-control" name="reps1"> 
+            <br>
+           <!-- <button type="button" id="addBlock" class="btn btn-success">Add Exercise</button> -->
             <br><br>
-            <button type="submit" class="btn btn-primary btn-secondary">Add Workout</button>
+            <button type="submit" class="btn btn-primary btn-secondary">Add Exercise</button>
         </form>
+    </div>
+
+
+
+
 
         <!-- following list used just for checking and editing purposes  -->
+    <div class="row">
+        <div class="column">
+            <h2> weight </h2>
+            <ol>
+                {% for block in blocks %}
+                    <li> {{ block.weight }} </li>
+                    <a href="{{ url_for('delete_block', id=block.id) }}">Delete</a> 
+                {% endfor %}
+            </ol>
+        </div>
 
-<!--         <ul>
-            {% for block in blocks %}
-                <li> {{ block.weight }} </li>
-            {% endfor %}
-        </ul> -->
+        <div class="column">
+            <h2> reps </h2>
+            <ol>
+                {% for block in blocks %}
+                    <li> {{ block.reps }} </li>
+                {% endfor %}
+            </ol>
+        </div>
 
-        <h2> weight </h2>
-        <ol>
-            {% for block in blocks %}
-                <li> {{ block.weight }} </li>
-            {% endfor %}
-        </ol>
+        <div class="column">
+            <h2> exercise </h2>
+            <ol>
+                {% for block in blocks %}
+                    <li> {{ block.exercise_id }} </li>
+                {% endfor %}
+            </ol>
+        </div>
 
-        <h2> reps </h2>
-        <ol>
-            {% for block in blocks %}
-                <li> {{ block.reps }} </li>
-            {% endfor %}
-        </ol>
-        <h2> exercise </h2>
-        <ol>
-            {% for block in blocks %}
-                <li> {{ block.exercise_id }} </li>
-            {% endfor %}
-        </ol>
-
-
-
-	</div>
-
+    </div>
 
 </div>
 
