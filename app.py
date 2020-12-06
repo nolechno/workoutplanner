@@ -6,6 +6,7 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func, desc
 from sqlalchemy.sql.expression import func
+from forms import LoginForm, RegistrationForm, AddExerciseUnit
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
