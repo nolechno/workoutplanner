@@ -103,33 +103,56 @@ def createworkout():
 
 
 
+# @app.route('/addworkout', methods=['POST', 'GET'])
+# def addworkout():  
+# 	title = "Add Workout"
+
+# 	workout_id = Workout.query.order_by(Workout.id.desc()).first() 
+# 	get_workout_id = str(workout_id.id)
+
+# 	if request.method == "POST":
+
+# 		get_weight = request.form['weight1']
+# 		get_reps = request.form['reps1']
+# 		get_type = request.form['exercise1']
+
+# 		exercise_unit = Unit(weight=get_weight, reps=get_reps, type_id=get_type, workout_id=get_workout_id)
+
+# 		try:
+# 			db.session.add(exercise_unit)
+# 			db.session.commit()
+# 			return redirect(url_for('addworkout'))
+# 		except:
+# 			return "fail"
+
+# 	else:
+# 		exercises = Type.query.all()
+# 		units = Unit.query.all()
+# 		workouts = Workout.query.all()
+# 		return render_template("addworkout.html", exercises=exercises, units=units, workouts=workouts)
 @app.route('/addworkout', methods=['POST', 'GET'])
-def addworkout():  
+def addworkout():
 	title = "Add Workout"
+	form = AddExerciseUnit()
 
 	workout_id = Workout.query.order_by(Workout.id.desc()).first() 
 	get_workout_id = str(workout_id.id)
 
-	if request.method == "POST":
+	exercise_options = db.session.query(Type).all()
+	exercise_name = [(i.name) for i in exercise_options]
+	form.exercise_type.choices = exercise_name
 
-		get_weight = request.form['weight1']
-		get_reps = request.form['reps1']
-		get_type = request.form['exercise1']
-
-		exercise_unit = Unit(weight=get_weight, reps=get_reps, type_id=get_type, workout_id=get_workout_id)
-
-		try:
-			db.session.add(exercise_unit)
-			db.session.commit()
-			return redirect(url_for('addworkout'))
-		except:
-			return "fail"
+	if form.validate_on_submit():
+		exercise_unit = Unit(weight=form.weight.data, reps=form.reps.data, type_id=form.exercise_type.data, workout_id='1')
+		db.session.add(exercise_unit)
+		db.session.commit()
+		return redirect(url_for('addworkout'))
 
 	else:
 		exercises = Type.query.all()
 		units = Unit.query.all()
 		workouts = Workout.query.all()
-		return render_template("addworkout.html", exercises=exercises, units=units, workouts=workouts)
+		return render_template("addworkout.html", exercises=exercises, units=units, workouts=workouts, form=form)
 
 
 

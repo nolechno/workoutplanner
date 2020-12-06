@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
+{{ wtf.quick_form(AddExerciseUnit) }}
 
 {% block title %} {{ title }} {% endblock %}
 
@@ -7,20 +8,43 @@
 
 
 <div class="container">
-	<div class="page-header"> 
-	    <h1> Create a Workout! </h1>
-	</div>
+    <div class="page-header"> 
+        <h1> Create a Workout! </h1>
+    </div>
+
+ 
+
+    <form action="{{ url_for('addworkout') }}" method="POST">
+        {{ form.csrf_token }}
+
+        <div class="form-field">
+            {{form.weight.label}} <br>
+            {{form.weight(size=100)}}
+        </div>
+
+        <div class="form-field">
+            {{form.reps.label}} <br>
+            {{form.reps(size=100)}}
+        </div>
+
+        <div class="form-field">
+            {{form.exercise_type.label}} <br>
+            {{form.exercise_type()}}
+        </div>
+
+        {{form.submit()}}
+    </form>
 
 
-	<!-- <div class="page-content"> -->
-    <div class="row">
 
-		<form method="POST" action="{{ url_for('addworkout') }}" id="workout">
 
-			<label>Exercise</label>
+    <!-- <div class="page-content"> -->
+    <!-- <div class="row">
+        <form method="POST" action="{{ url_for('addworkout') }}" id="workout">
+            <label>Exercise</label>
             <select class="form-control" name="exercise1" form="workout">
                 {% for exercise in exercises %}
-                	<option value="{{ exercise.id }}">{{ exercise.name }}</option>
+                    <option value="{{ exercise.id }}">{{ exercise.name }}</option>
                 {% endfor %}
             </select>
             <br>
@@ -29,13 +53,10 @@
             <br>
             <label>Reps</label>
             <input type="text" class="form-control" name="reps1"> 
-
             <br><br>
             <button type="submit" class="btn btn-primary btn-secondary">Add Exercise</button>
-
-
         </form>
-    </div>
+    </div> -->
 
 
 
