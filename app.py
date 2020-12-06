@@ -1,6 +1,12 @@
 from flask import Flask, render_template, session, redirect, request, url_for
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
+<<<<<<< Updated upstream
+=======
+from sqlalchemy import func, desc
+from sqlalchemy.sql.expression import func
+from forms import LoginForm, RegistrationForm, AddExerciseUnit
+>>>>>>> Stashed changes
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret string'
@@ -25,6 +31,7 @@ def home():
 
 @app.route('/exercises', methods=['POST', 'GET'])
 def exercises():
+<<<<<<< Updated upstream
     title = "Exercises"
 
     if request.method == "POST": 
@@ -41,3 +48,106 @@ def exercises():
     else:
         exercises = Exercises.query.all()
         return render_template("exercises.html", title=title, exercises=exercises)
+=======
+	title = "Exercises"
+	if request.method == "POST": 
+		ex_name = request.form['name']
+		new_ex = Type(name=ex_name)
+		try:
+			db.session.add(new_ex)
+			db.session.commit()
+			return redirect(url_for('exercises'))
+		except:
+			return "there was an error"
+	else:
+		exercises = Type.query.all()
+		return render_template("exercises.html", title=title, exercises=exercises)
+
+
+
+@app.route('/createworkout', methods=['POST', 'GET'])
+def createworkout():
+	if request.method == "POST":
+		current_workout = Workout(date=datetime.utcnow())
+
+		try: 
+			db.session.add(current_workout)
+			db.session.commit()
+			return redirect(url_for("addworkout"))
+		except: 
+			return "didnt work"
+	else:
+		# workouts.Workout.query.all()
+		return render_template("home.html")
+
+
+
+# @app.route('/addworkout', methods=['POST', 'GET'])
+# def addworkout():  
+# 	title = "Add Workout"
+
+# 	workout_id = Workout.query.order_by(Workout.id.desc()).first() 
+# 	get_workout_id = str(workout_id.id)
+
+# 	if request.method == "POST":
+
+# 		get_weight = request.form['weight1']
+# 		get_reps = request.form['reps1']
+# 		get_type = request.form['exercise1']
+
+# 		exercise_unit = Unit(weight=get_weight, reps=get_reps, type_id=get_type, workout_id=get_workout_id)
+
+# 		try:
+# 			db.session.add(exercise_unit)
+# 			db.session.commit()
+# 			return redirect(url_for('addworkout'))
+# 		except:
+# 			return "fail"
+
+# 	else:
+# 		exercises = Type.query.all()
+# 		units = Unit.query.all()
+# 		workouts = Workout.query.all()
+# 		return render_template("addworkout.html", exercises=exercises, units=units, workouts=workouts)
+@app.route('/addworkout', methods=['POST', 'GET'])
+def addworkout():
+	title = "Add Workout"
+	form = AddExerciseUnit()
+
+	workout_id = Workout.query.order_by(Workout.id.desc()).first() 
+	get_workout_id = str(workout_id.id)
+
+	exercise_options = db.session.query(Type).all()
+	exercise_name = [(i.name) for i in exercise_options]
+	form.exercise_type.choices = exercise_name
+
+	if form.validate_on_submit():
+		exercise_unit = Unit(weight=form.weight.data, reps=form.reps.data, type_id=form.exercise_type.data, workout_id='1')
+		db.session.add(exercise_unit)
+		db.session.commit()
+		return redirect(url_for('addworkout'))
+
+	else:
+		exercises = Type.query.all()
+		units = Unit.query.all()
+		workouts = Workout.query.all()
+		return render_template("addworkout.html", exercises=exercises, units=units, workouts=workouts, form=form)
+
+
+
+
+
+@app.route('/delete_ex/<int:id>')
+def delete_ex(id):
+    exercise_delete = Type.query.get_or_404(id)
+    try:
+        db.session.delete(exercise_delete)
+        db.session.commit()
+        return redirect(url_for('exercises'))
+    except:
+        return "there was a problem deleting"
+
+
+
+
+>>>>>>> Stashed changes
