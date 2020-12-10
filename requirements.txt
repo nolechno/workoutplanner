@@ -46,4 +46,4 @@ WTForms==2.3.3
 
 emailvalidator==0.3
 
-qunicorn==20.0.4
+gunicorn==20.0.4
