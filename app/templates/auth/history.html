@@ -18,8 +18,6 @@
 			<div class="message-body">
 		{% for unit in units %}
 			{% if (unit.user_id == current_user.id) %}
-	<!-- 			if the workout_id is matching: print all (unit.reps, weight, type_id) with matching workout_id -->
-
 				<p> {{unit.workout_id}} </p>
 				<p> {{ unit.reps }} x {{ unit.weight }}lbs of {{ unit.type_id }} </p>
 				<br>
