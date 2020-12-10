@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{{ wtf.quick_form(AddExercise) }}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+<div class="content">
+    <div class="page-header"> 
+        <h1 class="title">
+            <h1 style="text-align: center;">View and Add Exercises</h1>
+        </h1>
+    </div>
+</div>
+<article class="columns">
+    <section class="column is-one-quarter">
+        <form class="box" action="{{ url_for('auth.exercises') }}" method="POST">
+            {{ form.csrf_token }}
+            <div class="form-field">
+                {{form.exercise_name.label}} <br>
+                {{form.exercise_name(size=30)}}
+            </div>
+            <br>
+            <input class = "button" style="background-color: #FCFBD2;" type="submit" value="Add exercise" >
+        </form>
+        </section>
+    <section class="column">
+    <ul>
+        <article class="message is-medium is-dark">
+            <div class="message-body">
+        {% for exercise in exercises %}
+            <li> {{ exercise.name }} </li>
+            <a href="{{ url_for('auth.delete_ex', id=exercise.id) }}">Delete</a> 
+
+        {% endfor %}
+    </ul>
+</div>
+</article>
+    </section>
+    
+
+</article>  
+
+
+{% endblock %}
