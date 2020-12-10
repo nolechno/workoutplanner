@@ -10,7 +10,7 @@
 <div class="content">
     <div class="page-header"> 
         <h1 class="title">
-            <h1 style="text-align: center;">Create a workout!</h1>
+            <h1 style="text-align: center;">Create a workout</h1>
         </h1>
     </div>
 </div>
@@ -21,10 +21,12 @@
                 <div class="form-field">
                     {{form.weight.label}} <br>
                     {{form.weight(size=20)}}
+                    <p class= "help"> Example: '115lbs' or 'bodyweight' </p>
                 </div>
                 <div class="form-field">
                     {{form.reps.label}} <br>
                     {{form.reps(size=20)}}
+                    <p class= "help"> Example: '4' </p>
                 </div>
                 <div class="form-field">
                     {{form.exercise_type.label}} <br>
@@ -42,11 +44,13 @@
             {% for unit in units %}
                 {% if (unit.user_id == current_user.id) %}
                 <p> {{unit.workout_id}} </p>
-                <p> {{ unit.reps }} x {{ unit.weight }}lbs of {{ unit.type_id }} </p>
-                <a href="{{ url_for('auth.delete_unit', id=unit.id) }}">Delete</a>
-                <br>
-                <br>
-                    
+                <div class="field is-grouped">
+                    <p class="control">
+                        <p> {{ unit.reps }} x {{ unit.weight }}lbs of {{ unit.type_id }} </p> 
+                        <a class="button is-small" style="background-color:#FBD2FC;" href="{{ url_for('auth.delete_unit', id=unit.id) }}">Delete</a>
+                    </p>    
+                </div>
+                <br> <br>     
             {% endif %}
         {% endfor %}
                     </div>

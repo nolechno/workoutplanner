@@ -20,6 +20,7 @@
             <div class="form-field">
                 {{form.exercise_name.label}} <br>
                 {{form.exercise_name(size=30)}}
+                <p class= "help"> Example: 'Lunges' </p>
             </div>
             <br>
             <input class = "button" style="background-color: #FCFBD2;" type="submit" value="Add exercise" >
@@ -30,10 +31,13 @@
         <article class="message is-medium is-dark">
             <div class="message-body">
         {% for exercise in exercises %}
+        <div class="field is-grouped">
+            <p class="control">
             <li> {{ exercise.name }} </li>
-            <a href="{{ url_for('auth.delete_ex', id=exercise.id) }}">Delete</a> 
-
-        {% endfor %}
+            <a class="button" style="background-color:#FBD2FC;" href ="{{ url_for('auth.delete_ex', id=exercise.id) }}">Delete</a>
+            </p>
+        </div>
+            {% endfor %}
     </ul>
 </div>
 </article>
